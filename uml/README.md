@@ -3,15 +3,18 @@ https://sparxsystems.com/downloads/whitepapers/Database_Modeling_In_UML.pdf
 
 https://www.jointjs.com/blog/uml-class-diagrams
 
-
 https://blog.algomaster.io/p/uml-class-diagram-explained-with-examples
+
 https://www.visual-paradigm.com/guide/uml-unified-modeling-language/uml-class-diagram-tutorial/
+
 
 
 https://mermaid-js.github.io/mermaid-live-editor
 https://www.mermaidchart.com
+https://www.mermaidchart.com/mermaid-ai
 
-
+https://www.lucidchart.com/pages/
+https://dbdiagram.io/home
 
 ### 1. **Association Class in UML**  
    - **Yes**: If there is a **many-to-many relationship** between classes and you need to capture **extra attributes** that pertain to the relationship itself (e.g., `role`, `start date`, `hours worked`), you should use an **association class** in the UML diagram.
