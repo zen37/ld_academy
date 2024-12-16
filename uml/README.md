@@ -10,7 +10,9 @@ https://www.visual-paradigm.com/guide/uml-unified-modeling-language/uml-class-di
 
 
 https://mermaid-js.github.io/mermaid-live-editor
+
 https://www.mermaidchart.com
+
 https://www.mermaidchart.com/mermaid-ai
 
 https://www.lucidchart.com/pages/
