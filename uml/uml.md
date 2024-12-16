@@ -15,8 +15,7 @@ classDiagram
     Project "1" *-- "many" Task : consists of
     Employee "1" o-- "many" Task : assigned to
     Project "0..*" o-- "0..*" Employee : has
-
-
+    
 classDiagram
     class Employee {
         +getId() int
