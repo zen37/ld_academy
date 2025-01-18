@@ -1,13 +1,14 @@
 
 ## W3 Schools
 
-It's possible that the numbering isn't being copied correctly. Here is the revised Markdown with manual numbering:
-Aggregate Functions
+### Aggregate Function
 
 An aggregate function is a function that performs a calculation on a set of values, and returns a single value.
 Usage
 
-Aggregate functions are often used with the GROUP BY clause of the SELECT statement. The GROUP BY clause splits the result-set into groups of values and the aggregate function can be used to return a single value for each group.
+Aggregate functions are often used with the GROUP BY clause of the SELECT statement.
+
+The GROUP BY clause splits the result-set into groups of values and the aggregate function can be used to return a single value for each group.
 
 ### Common Aggregate Functions
 
