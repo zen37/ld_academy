@@ -1,34 +1,31 @@
-CREATE TABLE Department (
- id INTEGER PRIMARY KEY,
- department_name VARCHAR(100) NOT NULL
-);
-
 CREATE TABLE Employee (
- id INTEGER PRIMARY KEY,
- first_name VARCHAR(100) NOT NULL,
- last_name VARCHAR(100) NOT NULL
+ id PRIMARY KEY AUTO_INCREMENT
+ name VARCHAR(100) NOT NULL,
+ email VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE Project (
- id INTEGER PRIMARY KEY,
- project_name VARCHAR(255) NOT NULL,
- creation_date DATE NOT NULL,
+ id PRIMARY KEY AUTO_INCREMENT,
+ title VARCHAR(255) NOT NULL,
+ description VARCHAR(255) NOT NULL,
+ startdate DATE NOT NULL,
+ enddate DATE,
  project_status TEXT NOT NULL CHECK(project_status IN ('open', 'closed')),
- closure_date DATE NULL
 );
 
 
-CREATE TABLE Employee_Project (
- id INTEGER PRIMARY KEY,
+CREATE TABLE EmployeeProject (
+ id PRIMARY KEY AUTO_INCREMENT,
  employee_id INTEGER NOT NULL,
  project_id INTEGER NOT NULL,
- position VARCHAR(100) NOT NULL,
+ startdate DATE NOT NULL,
+ enddate DATE,
  FOREIGN KEY (employee_id) REFERENCES Employee(id),
  FOREIGN KEY (project_id) REFERENCES Project(id)
 );
 
 CREATE TABLE Task (
- id INTEGER PRIMARY KEY,
+ id PRIMARY KEY AUTO_INCREMENT,
  project_id INTEGER NOT NULL,
  employee_id INTEGER NOT NULL,
  task_description TEXT NOT NULL,
@@ -36,14 +33,10 @@ CREATE TABLE Task (
  status TEXT CHECK(status = 'open' or status = 'completed' or status = 'requires revision' or status = 'accepted'  ) NOT NULL,
  FOREIGN KEY (project_id) REFERENCES Project(id),
  FOREIGN KEY (employee_id) REFERENCES Employee(id)
-);
-
-CREATE TABLE Task_Status_History (
- id INTEGER PRIMARY KEY,
- task_id INTEGER NOT NULL,
- status TEXT CHECK(status = 'open' or status = 'completed' or status = 'requires revision' or status = 'accepted'  ) NOT NULL,
- task_status_date DATE NOT NULL,
- updated_by INTEGER NOT NULL,
- FOREIGN KEY (task_id) REFERENCES Task(id),
- FOREIGN KEY (updated_by) REFERENCES Employee(id)
+     CONSTRAINT chk_Employee_Project
+        CHECK (employee_id IN (
+            SELECT employee_id
+            FROM EmployeeProject
+            WHERE EmployeeProject.project_id = Task.project_id
+        ))
 );
