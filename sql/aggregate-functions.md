@@ -63,7 +63,7 @@ MODE (PostgreSQL, Oracle, SQL Server, IBM DB2) - returns the most frequently occ
 Note that this list might not be exhaustive, as different database management systems may support additional aggregate functions.
 
 
-## Chat GPT
+## ChatGPT
 
 Here are the corrections:
 
