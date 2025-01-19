@@ -42,3 +42,27 @@ In most cases, **there is no significant performance difference** between:
 - **Use the approach that’s cleanest for your codebase**: If your logic is better expressed and maintained in a function, do that. If you prefer to keep it in the application layer, that’s also fine.  
 - For critical performance scenarios, **benchmark both** approaches on your production-like data. Usually, you’ll see either no difference or very minor differences in execution times.  
 - Remember that **good indexing** and **overall query design** almost always matter more than whether you embed the SQL in code or wrap it in a function.
+
+
+### Pros & Cons of the Window Function Method
+
+- **Pros**:  
+  - Demonstrates a “single pass” style, computing both the per-employee task count and the per-project employee count in one flow of window functions.  
+  - Can be interesting for certain analytic queries.  
+
+- **Cons**:  
+  - It’s still more verbose than a straightforward “two-group” approach (subquery or CTE).  
+  - You typically need an extra level of nesting to filter on the window function results (as the `WHERE` clause cannot directly reference a window function).  
+  - In many real-world cases, performance and readability might be better with a simple `GROUP BY` subquery or a CTE.
+
+---
+
+### Summary of All Approaches
+
+1. **Subquery / Derived Table**  
+2. **CTE (WITH ...)**  
+3. **CASE-based Grouping**  
+4. **Window Functions**  
+
+All achieve the goal: **Projects that have at least `N` employees, each with at least `M` tasks.**  
+In PostgreSQL, these typically result in **similar query plans** once optimized. Which you pick often depends on **readability** and **team preference**.
