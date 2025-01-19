@@ -65,6 +65,30 @@ While PostgreSQL is highly compliant with the SQL standard, it includes several 
    - **Standard SQL**: Limited support for custom aggregates.
    - **PostgreSQL**: Allows creation of custom aggregate functions.
 
+**Stored procedures** and **functions** in PostgreSQL share many similarities with those in other databases (like SQL Server, MySQL, or Oracle), but there are a few key differences in how PostgreSQL implements them:
+
+1. **Functions vs. Procedures**  
+   - PostgreSQL **functions** have been around longer; they can return a single value, a row, or an entire set (making them act like “table functions”), and they’re often used in SQL statements (e.g., `SELECT * FROM some_function(...)`).  
+   - **Procedures** were introduced more recently (PostgreSQL 11). Unlike functions, procedures do not return values directly. Instead, they’re invoked with `CALL procedure_name(...)` and are typically used for actions or utility tasks (e.g., data loading, transaction control).
+
+2. **Transaction Control**  
+   - PostgreSQL **functions** must run within a transaction; you cannot start or end transactions inside a function.  
+   - **Procedures** in PostgreSQL can manage transactions directly (e.g., use `BEGIN`, `COMMIT`, or `ROLLBACK` inside the procedure), which is more aligned with how Oracle, SQL Server, or MySQL stored procedures can handle transaction flow.
+
+3. **Table Functions**  
+   - PostgreSQL functions can return a result set directly (`RETURNS TABLE(...)` or `RETURNS SETOF ...`), which you can query in a `FROM` clause just like a physical table. This feature is not as common or is more restricted in some other databases (though Oracle has table functions and SQL Server has table-valued functions).
+
+4. **Implementation Languages**  
+   - PostgreSQL supports multiple languages for writing stored code (PL/pgSQL, PL/Python, PL/Perl, etc.). Other databases also allow multiple languages or T-SQL/PL-SQL style scripting, but the breadth and flexibility of PostgreSQL’s language support is often cited as a differentiator.
+
+5. **Syntax & Invocation**  
+   - In PostgreSQL, **functions** are typically invoked in queries (e.g., `SELECT my_function(...)`), whereas **procedures** use `CALL my_procedure(...)`.  
+   - SQL Server’s stored procedures use `EXEC proc_name ...`; MySQL and Oracle also use `CALL proc_name(...)`, but with slightly different syntax and parameter handling.
+
+Overall, PostgreSQL’s model is quite flexible—particularly because of its **table functions**—but if you’re coming from SQL Server, Oracle, or MySQL, you’ll find the main conceptual difference is that **functions** in PostgreSQL are much more tightly integrated into queries, and **procedures** are specifically for operations that may need transaction control or don’t produce a direct result set.
+
+It may look a bit unusual if you’re used to other RDBMSes (like SQL Server or Oracle) where functions aren’t typically used in FROM clauses.
+In PostgreSQL, this is perfectly normal, because table functions are first-class citizens and can appear in the FROM clause just as a physical table or subselect would.
 
 
 ### Conclusion:
