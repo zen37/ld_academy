@@ -8,7 +8,7 @@ Unfortunately, **`pg_stat_statements` does not store individual records for each
 PostgreSQL can log each query execution into the server logs using `log_statement` or related settings:
 
 1. **Enable Query Logging**:
-   Edit your `postgresql.conf` file and set:
+   Edit your `postgresql.conf` (in data folder) file and set:
    ```plaintext
    log_statement = 'all'
    log_duration = on
@@ -101,4 +101,39 @@ If you need **per-execution query records**:
 - Use **`log_min_duration_statement`** for server logs.
 - For deeper insights or real-time logging, implement **custom logging with a query log table**.
 
-Let me know if you’d like help implementing one of these! 😊
+SELECT name, setting FROM pg_settings WHERE name ~ 'log';
+
+ALTER SYSTEM SET log_rotation_age = '1 min';
+
+ALTER SYSTEM SET log_min_duration_statement = 1;
+
+The log entry you're seeing:
+2025-01-19 08:54:00.125 PST [6238] LOG: duration: 0.386 ms
+is likely due to the fact that the pg_stat_statements extension is enabled in your PostgreSQL database. This extension tracks execution statistics for all SQL statements executed by the database.
+Even though you've set log_statement to 'none', the pg_stat_statements extension is still logging the duration of each statement. This is because the extension is designed to provide detailed statistics on statement execution, and logging the duration is part of that.
+To disable logging of statement durations by pg_stat_statements, you can try setting the pg_stat_statements.track parameter to 'none':
+SQL
+ALTER SYSTEM SET pg_stat_statements.track = 'none';
+Alternatively, you can disable the pg_stat_statements extension altogether:
+SQL
+DROP EXTENSION pg_stat_statements;
+Keep in mind that disabling pg_stat_statements may make it more difficult to diagnose performance issues or monitor database activity.
+
+
+The log entry you're seeing:
+2025-01-19 08:54:00.125 PST [6238] LOG: duration: 0.386 ms
+is likely due to the fact that the pg_stat_statements extension is enabled in your PostgreSQL database. This extension tracks execution statistics for all SQL statements executed by the database.
+Even though you've set log_statement to 'none', the pg_stat_statements extension is still logging the duration of each statement. This is because the extension is designed to provide detailed statistics on statement execution, and logging the duration is part of that.
+To disable logging of statement durations by pg_stat_statements, you can try setting the pg_stat_statements.track parameter to 'none':
+SQL
+ALTER SYSTEM SET pg_stat_statements.track = 'none';
+Alternatively, you can disable the pg_stat_statements extension altogether:
+SQL
+DROP EXTENSION pg_stat_statements;
+Keep in mind that disabling pg_stat_statements may make it more difficult to diagnose performance issues or monitor database activity.
+
+If you set log_duration to off, then only statements that exceed the log_min_duration_statement threshold (in your case, 1ms) will be logged.
+In other words:
+log_duration = on : Logs the duration of every statement, regardless of execution time.
+log_duration = off : Logs only statements that exceed the log_min_duration_statement threshold (1ms in your case).
+By setting log_duration to off, you can filter out log entries for very short-running statements and only log statements that take longer than 1ms to execute.

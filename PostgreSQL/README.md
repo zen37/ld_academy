@@ -91,5 +91,17 @@ It may look a bit unusual if you’re used to other RDBMSes (like SQL Server or 
 In PostgreSQL, this is perfectly normal, because table functions are first-class citizens and can appear in the FROM clause just as a physical table or subselect would.
 
 
+In PostgreSQL, you can attach documentation (comments) directly to a function using the **`COMMENT ON FUNCTION`** command. For example:
+
+```sql
+COMMENT ON FUNCTION get_projects_with_min_tasks(int, int)
+    IS 'Returns projects with at least N employees who each have at least M tasks.';
+```
+
+This comment is then stored in the database metadata. You can retrieve it using tools like `psql` (e.g., `\df+` in psql will show the function plus any comments). 
+
+Some developers also maintain “docstrings” or explanatory text **inside** the function’s source code (though that text is not automatically stored as a separate piece of metadata). But `COMMENT ON FUNCTION` is the canonical Postgres way to attach dedicated documentation to a function itself.
+
+
 ### Conclusion:
 PostgreSQL extends standard SQL with a rich set of features that enhance its functionality and flexibility. Understanding these differences can help you leverage PostgreSQL's capabilities to build more robust and efficient database applications.
